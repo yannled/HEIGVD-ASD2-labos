@@ -1,3 +1,7 @@
 Labo 1*
 *Thumbs.db
 *.DS_Store
+*bin*
+*obj*
+*.depend
+*.cbp
