@@ -31,7 +31,8 @@ namespace ASD2 {
     private:
         const bitmap_image& image;
         
-        int compPixel(int x1, int y1, int x2, int y2) const;
+        // compare la coloration de deux pixels.
+        int comparePixelColor(int x1, int y1, int x2, int y2) const;
     };
     
 }

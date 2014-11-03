@@ -2,25 +2,37 @@
 
 namespace ASD2 {
 
+    /**
+     * Constructor of a GraphFromImage object.
+     * @param i the bitmap image reference
+     */
     GraphFromImage::GraphFromImage(const bitmap_image& i) : image(i) {
-        /* A IMPLEMENTER */
+        /* nothing to do: the reference to the image is already stored */
     }
 
     /**
-     * Return 1 if pixels are the same, 0 o/w.
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
-     * @return 
+     * Private method that returns 1 if two pixels are the same color, 0 o/w.
+     * 
+     * Two pixels are considered the same if their red, green and blue
+     * composants are exactly the same.
+     * 
+     * This method is used to factorize code and avoid duplication.
+     * 
+     * @param x1 the x coord of the first pixel
+     * @param y1 the y coord of the first pixel
+     * @param x2 the x coord of the second pixel
+     * @param y2 the y coord of the second pixel
+     * @return 1 if same pixel, 0 o/w
      */
-    int GraphFromImage::compPixel(int x1, int y1, int x2, int y2) const {
+    int GraphFromImage::comparePixelColor(int x1, int y1, int x2, int y2) const {
+        // pixel 1 colors RGB
         unsigned char red1;
-        unsigned char blue1;
         unsigned char green1;
+        unsigned char blue1;
+        // pixel 2 colors RGB
         unsigned char red2;
-        unsigned char blue2;
         unsigned char green2;
+        unsigned char blue2;
         GraphFromImage::image.get_pixel(x1, y1, red1, green1, blue1);
         GraphFromImage::image.get_pixel(x2, y2, red2, green2, blue2);
         if (red1 == red2 && blue1 == blue2 && green1 == green2) {
@@ -29,53 +41,117 @@ namespace ASD2 {
         return 0;
     }
 
+    /**
+     * Returns the adjacent edges of the edge v, that are the same color.
+     * @param v the index of an edge
+     * @return the neighbors of v that are the same color
+     */
     GraphFromImage::Iterable GraphFromImage::adjacent(int v) const {
-        /* A IMPLEMENTER */
-        std::list<int> hello;
+        /* the iterable that will be returned, list of indexes */
+        std::list<int> neighborsAdjacentSameColor;
+
+        // x/y coordinates of the current pixel
         int xValue = x(v);
         int yValue = y(v);
+
+        // x/y coordinates of the neighbor pixel
+        int xNeighbor = xValue;
+        int yNeighbor = yValue;
+
+        /* for each neighbor (left, right, up, down), we check if we are
+         * on the border. Then we check if the color is the same, 
+         * and if so we add the index of the neighbor to the returned neighbors
+         */
+
+        // LEFT
+        // if x is bigger than 0, we look at its predecessor (x-1)
         if (xValue > 0) {
-            if (compPixel(xValue, yValue, xValue - 1, yValue) != 0) {
-                hello.push_back(idx(xValue - 1, yValue));
+            xNeighbor = xValue - 1;
+            if (comparePixelColor(xValue, yValue, xNeighbor, yNeighbor) != 0) {
+                neighborsAdjacentSameColor.push_back(idx(xNeighbor, yNeighbor));
             }
+            xNeighbor = xValue;
         }
+
+        // UP
+        // if x is bigger than 0, we look at its predecessor (y-1)
         if (yValue > 0) {
-            if (compPixel(xValue, yValue, xValue, yValue - 1) != 0) {
-                hello.push_back(idx(xValue, yValue - 1));
+            yNeighbor = yValue - 1;
+            if (comparePixelColor(xValue, yValue, xNeighbor, yNeighbor) != 0) {
+                neighborsAdjacentSameColor.push_back(idx(xNeighbor, yNeighbor));
             }
+            yNeighbor = yValue;
         }
 
+        // RIGHT
+        // if x is not on the right side, we look at its successor (x+1)
         if (xValue <= GraphFromImage::image.width() - 1) {
-            if (compPixel(xValue, yValue, xValue + 1, yValue) != 0) {
-                hello.push_back(idx(xValue + 1, yValue));
+            xNeighbor = xValue + 1;
+            if (comparePixelColor(xValue, yValue, xNeighbor, yNeighbor) != 0) {
+                neighborsAdjacentSameColor.push_back(idx(xNeighbor, yNeighbor));
             }
-        }
-        if (yValue <= GraphFromImage::image.height() - 1) {
-            if (compPixel(xValue, yValue, xValue, yValue + 1) != 0) {
-                hello.push_back(idx(xValue, yValue + 1));
-            }
+            xNeighbor = xValue;
         }
 
-        return hello;
+        // DOWN
+        // if y is not on the border down side, we look at its successor (y+1)
+        if (yValue <= GraphFromImage::image.height() - 1) {
+            yNeighbor = yValue + 1;
+            if (comparePixelColor(xValue, yValue, xNeighbor, yNeighbor) != 0) {
+                neighborsAdjacentSameColor.push_back(idx(xNeighbor, yNeighbor));
+            }
+            yNeighbor = yValue;
+        }
+
+        return neighborsAdjacentSameColor;
     }
 
+    /**
+     * Returns the index of a pixel given by its x/y coordinate.
+     * 
+     * It's calculated as the width times the y coordinate (height used), 
+     * plus the x coordinate (width used).
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return the index of the pixel (y * width + x)
+     */
     int GraphFromImage::idx(int x, int y) const {
-        /* A IMPLEMENTER */
+        /* y x width + x */
         return y * GraphFromImage::image.width() + x;
     }
 
+    /**
+     * Returns the x coordinate of the pixel denoted by its index.
+     * 
+     * It's calculated as the modulo of the index by the width.
+     * (remaining number of the last line)
+     * @param idx the index of the pixel
+     * @return its x coordinate.
+     */
     int GraphFromImage::x(int idx) const {
-        /* A IMPLEMENTER */
+        /* modulo integer division */
         return idx % GraphFromImage::image.width();
     }
 
+    /**
+     * Returns the y coordinate of the pixel denoted by its index.
+     * 
+     * It's calculated as the integer division of the index by the width.
+     * (number of line)
+     * @param idx the index of the pixel
+     * @return its y coordinate.
+     */
     int GraphFromImage::y(int idx) const {
-        /* A IMPLEMENTER */
+        /* integer division without the remainer  */
         return idx / GraphFromImage::image.width();
     }
 
+    /**
+     * Return the number of pixels, defined as the width times the height.
+     * @return the size of the image.
+     */
     int GraphFromImage::V() const {
-        /* A IMPLEMENTER */
+        /* size = width x height */
         return GraphFromImage::image.width() * GraphFromImage::image.height();
     }
 
