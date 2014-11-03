@@ -21,8 +21,8 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=MinGW-Windows
-CND_DLIB_EXT=dll
+CND_PLATFORM=GNU-MacOSX
+CND_DLIB_EXT=dylib
 CND_CONF=Debug
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -58,26 +58,26 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_3.exe
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_3
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_3.exe: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_3: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_3 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/_ext/2060835113/GraphUsingAdjacencyLists.o: ../Lab\ 2\ -\ Ex\ 3/GraphUsingAdjacencyLists.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/2060835113
-	${RM} $@.d
-	$(COMPILE.cc) -g -std=c++0x -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/2060835113/GraphUsingAdjacencyLists.o ../Lab\ 2\ -\ Ex\ 3/GraphUsingAdjacencyLists.cpp
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/2060835113/GraphUsingAdjacencyLists.o ../Lab\ 2\ -\ Ex\ 3/GraphUsingAdjacencyLists.cpp
 
 ${OBJECTDIR}/_ext/2060835113/Util.o: ../Lab\ 2\ -\ Ex\ 3/Util.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/2060835113
-	${RM} $@.d
-	$(COMPILE.cc) -g -std=c++0x -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/2060835113/Util.o ../Lab\ 2\ -\ Ex\ 3/Util.cpp
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/2060835113/Util.o ../Lab\ 2\ -\ Ex\ 3/Util.cpp
 
 ${OBJECTDIR}/_ext/2060835113/ex3.o: ../Lab\ 2\ -\ Ex\ 3/ex3.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/2060835113
-	${RM} $@.d
-	$(COMPILE.cc) -g -std=c++0x -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/2060835113/ex3.o ../Lab\ 2\ -\ Ex\ 3/ex3.cpp
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/2060835113/ex3.o ../Lab\ 2\ -\ Ex\ 3/ex3.cpp
 
 # Subprojects
 .build-subprojects:
@@ -85,7 +85,7 @@ ${OBJECTDIR}/_ext/2060835113/ex3.o: ../Lab\ 2\ -\ Ex\ 3/ex3.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_3.exe
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_3
 
 # Subprojects
 .clean-subprojects:

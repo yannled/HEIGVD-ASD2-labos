@@ -21,8 +21,8 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=MinGW-Windows
-CND_DLIB_EXT=dll
+CND_PLATFORM=GNU-MacOSX
+CND_DLIB_EXT=dylib
 CND_CONF=Release
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -59,31 +59,31 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_1.exe
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_1
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_1.exe: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_1: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_1 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/GraphUsingAdjacencyLists.o: GraphUsingAdjacencyLists.cpp 
 	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -std=c++0x -MMD -MP -MF $@.d -o ${OBJECTDIR}/GraphUsingAdjacencyLists.o GraphUsingAdjacencyLists.cpp
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GraphUsingAdjacencyLists.o GraphUsingAdjacencyLists.cpp
 
 ${OBJECTDIR}/GraphUsingAdjacencyMatrix.o: GraphUsingAdjacencyMatrix.cpp 
 	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -std=c++0x -MMD -MP -MF $@.d -o ${OBJECTDIR}/GraphUsingAdjacencyMatrix.o GraphUsingAdjacencyMatrix.cpp
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GraphUsingAdjacencyMatrix.o GraphUsingAdjacencyMatrix.cpp
 
 ${OBJECTDIR}/GraphUsingListOfEdges.o: GraphUsingListOfEdges.cpp 
 	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -std=c++0x -MMD -MP -MF $@.d -o ${OBJECTDIR}/GraphUsingListOfEdges.o GraphUsingListOfEdges.cpp
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GraphUsingListOfEdges.o GraphUsingListOfEdges.cpp
 
 ${OBJECTDIR}/ex1.o: ex1.cpp 
 	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -std=c++0x -MMD -MP -MF $@.d -o ${OBJECTDIR}/ex1.o ex1.cpp
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ex1.o ex1.cpp
 
 # Subprojects
 .build-subprojects:
@@ -91,7 +91,7 @@ ${OBJECTDIR}/ex1.o: ex1.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_1.exe
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/lab_2_-_ex_1
 
 # Subprojects
 .clean-subprojects:
