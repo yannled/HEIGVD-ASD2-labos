@@ -48,7 +48,7 @@ namespace ASD2 {
      */
     GraphFromImage::Iterable GraphFromImage::adjacent(int v) const {
         /* the iterable that will be returned, list of indexes */
-        std::list<int> neighborsAdjacentSameColor;
+        GraphFromImage::Iterable neighborsAdjacentSameColor;
 
         // x/y coordinates of the current pixel
         int xValue = x(v);
