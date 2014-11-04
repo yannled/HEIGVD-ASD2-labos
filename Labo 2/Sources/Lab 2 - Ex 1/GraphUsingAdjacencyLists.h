@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Graph.h
  * Author: Olivier Cuisenaire
  *
@@ -12,26 +12,25 @@
 #include <list>
 #include <vector>
 
-namespace ASD2 
+namespace ASD2
 {
     class GraphUsingAdjacencyLists {
-    public:      
+    public:
         typedef const std::list<int> & Iterable;
- 
-        GraphUsingAdjacencyLists(std::istream& stream); 
+
+        GraphUsingAdjacencyLists(std::istream& stream);
         GraphUsingAdjacencyLists(int V);
 
         void addEdge(int v, int w);              // ajoute une arête
         Iterable adjacent(int v) const;          // voisins du sommet v
         int V() const;                           // ordre du graphe
-        
+
     private:
         GraphUsingAdjacencyLists(const GraphUsingAdjacencyLists& G) {};               // constructeurs non autorises
         GraphUsingAdjacencyLists();
-        
-        std::vector<std::list<int>> adjacencyLists; 
+
+        std::vector<std::list<int>> adjacencyLists;
     };
 }
 
 #endif	/* GRAPH_H */
-

@@ -31,15 +31,27 @@ namespace ASD2 {
     //throws std::out_of_range
     void GraphUsingAdjacencyMatrix::addEdge(int v, int w) {
        /* A IMPLEMENTER */
+       adjMatrix.at(v).at(w) = true;
+       adjMatrix.at(w).at(v) = true;
     }
-    
+
     //throws std::out_of_range
     GraphUsingAdjacencyMatrix::Iterable GraphUsingAdjacencyMatrix::adjacent(int v) const {
         /* A IMPLEMENTER */
+        Iterable it;
+
+        for (int i = 0; i < V(); i++) {
+            if (adjMatrix.at(v).at(i)) {
+                it.push_back(i);
+            }
+        }
+
+        return it;
     }
 
     int GraphUsingAdjacencyMatrix::V() const {
         /* A IMPLEMENTER */
+        return adjMatrix.size();
     }
-    
+
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   ProprietesGraphe.h
  * Author: Olivier Cuisenaire
  *
@@ -10,7 +10,6 @@
 
 
 namespace ASD2 {
-
     class ProprietesGraphe {
     public:
 
