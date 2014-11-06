@@ -29,15 +29,24 @@ namespace ASD2 {
     }
 
     //throws std::out_of_range
+
     void GraphUsingAdjacencyMatrix::addEdge(int v, int w) {
-       /* A IMPLEMENTER */
-       adjMatrix.at(v).at(w) = true;
-       adjMatrix.at(w).at(v) = true;
+        /* A IMPLEMENTER 
+         * Ajoute true a l'adjacence (v,w) ET (w,v) car c'est un graphe non orienté
+         * On choisit donc les positions v,w en 1ere et 2eme dimension, puis l'inverse.
+         */
+        adjMatrix.at(v).at(w) = true;
+        adjMatrix.at(w).at(v) = true;
     }
 
     //throws std::out_of_range
+
     GraphUsingAdjacencyMatrix::Iterable GraphUsingAdjacencyMatrix::adjacent(int v) const {
-        /* A IMPLEMENTER */
+        /* A IMPLEMENTER 
+         * 
+         * Pour chaque sommet i, on regarde si il est adjacent à v 
+         * et on l'ajoute dans l'itérateur retourné
+         */
         Iterable it;
 
         for (int i = 0; i < V(); i++) {
@@ -50,7 +59,9 @@ namespace ASD2 {
     }
 
     int GraphUsingAdjacencyMatrix::V() const {
-        /* A IMPLEMENTER */
+        /* A IMPLEMENTER 
+         * Retourne la taille de la matrice.
+         */
         return adjMatrix.size();
     }
 
