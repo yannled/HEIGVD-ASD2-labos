@@ -39,6 +39,9 @@ int main(int argc, char** argv) {
         image.set_pixel(G.x(v), G.y(v), 0, 255, 64);
     });
 
+    /* toutes sortes d'ameliorations pour le output-custom.bmp
+     * Coloration oreilles, feuille, coussinnets, yeux
+     * 
     //on colore les oreilles et la langue en rose
     x = 240, y = 130;
     dfs.iterativeVisit(G.idx(x, y), [&G, &image] (int v) {
@@ -98,6 +101,7 @@ int main(int argc, char** argv) {
     dfs.iterativeVisit(G.idx(x, y), [&G, &image] (int v) {
         image.set_pixel(G.x(v), G.y(v), 0, 204, 255);
     });
+     */
 
     //on sauve l'image modifiee
     image.save_image("output.bmp");
