@@ -3,14 +3,14 @@
 
 namespace ASD2 {
 
-    GraphUsingAdjacencyLists::GraphUsingAdjacencyLists(int V) 
+    GraphUsingAdjacencyLists::GraphUsingAdjacencyLists(int V)
     {
         adjacencyLists.resize(V);
     }
 
     GraphUsingAdjacencyLists::GraphUsingAdjacencyLists(std::istream& s) {
         int V,E,v,w;
-        
+
         s >> V;
         s >> E;
 
@@ -36,5 +36,5 @@ namespace ASD2 {
     int GraphUsingAdjacencyLists::V() const {
         return adjacencyLists.size();
     }
-    
+
 }
