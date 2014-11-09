@@ -17,8 +17,8 @@ using namespace ASD2;
 using namespace std;
 
 // Running time:
-// -g: 		~204s
-// -O -O2: 	~40s
+// -g: 		~1.3s
+// -O -O2: 	~0.8s
 
 int main(int argc, char** argv) {
 

@@ -14,6 +14,7 @@
 #include <sstream>
 #include <algorithm>
 #include <vector>
+#include <map>
 
 #include "Util.h"
 
@@ -25,10 +26,13 @@ namespace ASD2
         typedef GraphType Graph;
     private:
         Graph* g;
-        std::vector<std::string> totalName;
+        // Map à double sens pour éviter de longues boucles.
+        // Nous avons choisi de favoriser la vitesse d'execution,
+        // mais cette méthode consomme 2 fois plus de mémoire.
+        std::vector<std::string> indexToName;
+        std::map<std::string, int> nameToIndex;
 
     public:
-
         ~SymbolGraph()
         {
             delete g;
@@ -39,8 +43,8 @@ namespace ASD2
             //lecture du fichier, ligne par ligne puis element par element (separe par des /)
             std::string line;
             int cnt=0;
-            g = new Graph(10000000);
 
+            // Création des sommets du graphe
             std::ifstream s(filename);
             while (std::getline(s, line))
             {
@@ -48,63 +52,66 @@ namespace ASD2
                 std::string filmName = names.front();
                 names.erase(names.begin());
 
-                totalName.push_back(filmName);
-                int w = totalName.size() - 1;
+                indexToName.push_back(filmName);
+                int w = indexToName.size() - 1;
+                nameToIndex.insert(std::pair<std::string, int>(filmName, w));
 
                 for(std::string actorName : names) {
-                    // std::cout << actorName << " "; //on affiche le contenu du fichier, vous devrez commencer a remplir le graphe ici;
-
-                    int v = index(actorName);
-
-                    if (v == -1) {
-                        //std::vector<std::string> filmNeighborsList = adjacent(w);
-                        //filmNeighborsList.push_back(v)
-                        totalName.push_back(actorName);
-                        v = totalName.size() - 1;
+                    if (!contains(actorName)) {
+                        // On crée un nouveau vertex pour l'acteur
+                        indexToName.push_back(actorName);
+                        int v = indexToName.size() - 1;
+                        nameToIndex.insert(std::pair<std::string, int>(actorName, v));
                     }
+                }
+            }
+
+            g = new Graph(indexToName.size());
+
+            // Remise à zéro du pointeur depuis le début
+            s.clear();
+            s.seekg(0, std::ios::beg);
+            // Second passage de lecture du fichier pour la création des arêtes
+            while (std::getline(s, line))
+            {
+                std::vector<std::string> names = ASD2::split(line,'/');
+                std::string filmName = names.front();
+                names.erase(names.begin());
+
+                int w = index(filmName);
+
+                for (std::string actorName : names) {
+                    int v = index(actorName);
 
                     g->addEdge(v, w);
                 }
-
-                // std::cout << std::endl;
             }
 
             s.close();
-
-            /* A IMPLEMENTER */
         }
 
-        //verifie la presence d'un symbole
+        // verifie la presence d'un symbole
         bool contains(const std::string& name) {
-            /* A IMPLEMENTER */
             return index(name) > 0;
         }
 
-        //index du sommet correspondant au symbole
-        /**
-         * \return int, the index of the vertex,
-         *         or -1 if there is no vertex found.
-         */
+        // retourne l'index du symbole ou -1 s'il n'existe pas
         int index(const std::string& name) {
-             /* A IMPLEMENTER */
-             for (int i = 0; i < totalName.size(); i++){
-                if (totalName.at(i) == name) {
-                    return i;
-                }
-             }
-             return -1;
+            std::map<std::string, int>::const_iterator index = nameToIndex.find(name);
+            if (index == nameToIndex.end()) { // élément introuvable
+                return -1;
+            } else {
+                return index->second;
+            }
         }
 
         //symbole correspondant au sommet
         std::string name(int idx) {
-            /* A IMPLEMENTER */
-
-            return totalName.at(idx);
+            return indexToName.at(idx);
         }
 
 		//symboles adjacents a un symbole
 		std::vector<std::string> adjacent(const std::string & vertexName) {
-			/* A IMPLEMENTER */
 			int idxSearch = index(vertexName);
 			std::vector<int> neighbors = g->adjacent(idxSearch);
 			std::vector<std::string> ret;
