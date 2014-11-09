@@ -27,6 +27,12 @@ int main(int argc, char** argv) {
     ASD2::DFS<ASD2::GraphFromImage> dfs(G);
 
     //Question BONUS: Pourquoi n'utilisons-nous pas la methode visite pour parcourir l'image ?
+    /*
+     * Réponse:
+     * la méthode visite ne fonctionne pas, car nous devons:
+     * - redéfinir nous-mêmes ce qu'est un voisin (sommet UP/DOWN/LEFT/RIGHT de MEME couleur)
+     * - appliquer le traitement désiré (application de la nouvelle couleur)
+     */
 
     //on colore la carotte
     int x = 250, y = 400;
