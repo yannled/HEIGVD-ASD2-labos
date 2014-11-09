@@ -116,6 +116,16 @@ int main(int argc, char** argv) {
     //on charge l'image temoin pour verifier notre code
     bitmap_image image_gold("goal.bmp");
 
+    
+    /* Procedure de test: on constate tout d'abord que le psnr est extrèmement faible
+     * ce qui signifie qu'elle sont très proches.
+     * 
+     * par ailleurs, la commande "diff output.png goal.png" 
+     * renvoie "same files, no differences found" ce qui signifie que les deux fichiers
+     * sont strictement identiques au bit près. 
+     * Le changement d'un seul bit d'un des deux fichiers implique le retour de diff
+     * "Binary files differ." ce qui renforce cette affirmation.
+     * */
     if (image.psnr(image_gold) < 1000000)
         std::cout << "test failed - psnr = " << image.psnr(image_gold) << ") \n";
     else

@@ -16,9 +16,25 @@
 using namespace ASD2;
 using namespace std;
 
-// Running time:
-// -g: 		~1.3s
-// -O -O2: 	~0.8s
+/* 
+ * PROCEDURE DE TEST
+ * VOIR LA CAPTURE D'ECRAN EN ANNEXE.
+ * 
+ * EXEMPLE D'EXECUTION:
+ * Debbouze, Jamel
+ * Ast�rix & Ob�lix: Mission Cl�op�tre (2002)
+ * Depardieu, G�rard
+ * Novecento (1976)
+ * Sutherland, Donald (I)
+ * Animal House (1978)
+ * Bacon, Kevin
+ * 
+ * 
+ * Running time:
+ * -g: 		~1.3s
+ * -O -O2: 	~0.8s
+ * 
+ * */
 
 int main(int argc, char** argv) {
 

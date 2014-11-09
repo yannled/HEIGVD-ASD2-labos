@@ -77,8 +77,13 @@ template<typename Graph>
 void Analyse(const Graph& G, const string& message) {
     CC<Graph> cc(G);
 
-    // NOUS CONSTATONS QUE LES RESULTATS SONT IDENTIQUES QUEL QUE SOIENT LES TYPES DE REPRESENTATION!
-    // NOTRE METHODE FONCTIONNE DONC.
+    /* NOUS CONSTATONS QUE LES RESULTATS SONT IDENTIQUES QUEL QUE SOIENT LES TYPES DE REPRESENTATION!
+     * 
+     * PAR AILLEURS, NOUS AVONS REPRESENTE SUR PAPIER LE TINYGRAPH ET CONSTATE QUE 
+     * LES RESULTATS CORRESPONDENT A LA REALITE DU GRAPHE.
+     * 
+     * NOTRE METHODE FONCTIONNE DONC.
+     * */
     cout << message << " a " << G.V() << " sommets, " << CountEdges(G) << " aretes et " << cc.Count() << " composantes connexes \n";
     cout << "le sommet " << 0 << " fait partie de la CC " << cc.Id(0) << ". La distance maximale a ce sommet dans cette CC est de " << FindMaxDistanceFrom(G, 0) << "\n";
     cout << "le sommet " << 3 << " fait partie de la CC " << cc.Id(3) << ". La distance maximale a ce sommet dans cette CC est de " << FindMaxDistanceFrom(G, 3) << "\n";
