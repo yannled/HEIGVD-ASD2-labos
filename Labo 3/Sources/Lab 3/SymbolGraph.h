@@ -1,4 +1,5 @@
-/* 
+/* // MODIFIED BY MINDER VALENTIN AND GHOZLANI KARIM // ASD2-LAB3
+
  * File:   SymbolGraph.h
  * Author: Olivier Cuisenaire
  *
@@ -37,7 +38,7 @@ namespace ASD2
         }            
         
         //creation du SymbolGraph a partir du fichier movies.txt
-        SymbolGraph(const std::string& filename) {         
+        SymbolGraph(const std::string& filename, char delimiter = ',') {         
             //lecture du fichier, ligne par ligne puis element par element (separe par des /)
             std::string line;
             int cnt=0; 
@@ -45,12 +46,10 @@ namespace ASD2
             std::ifstream s(filename);
             while (std::getline(s, line))
             {
-                auto names = ASD2::split(line,'/');
+                auto names = ASD2::split(line, delimiter);
                 for( auto name : names ) 
                     if(!contains(name))
                         symbolTable[name] = cnt++;
-                
-                std::cout << std::endl;
             }
             s.close();
             
@@ -63,7 +62,7 @@ namespace ASD2
             s.open(filename);
             while (std::getline(s, line))
             {
-                auto names = ASD2::split(line,'/');
+                auto names = ASD2::split(line, delimiter);
                
                 int v = symbolTable[names[0]];
                 for( size_t i = 1; i < names.size(); ++i ) {
