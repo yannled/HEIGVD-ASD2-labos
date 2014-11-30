@@ -87,6 +87,7 @@ void runWithFileName(const string fileName, const char delimiter = ',') {
     cout << endl;
 }
 
+// the png file attached attest that the test was successful :)
 int main(int argc, const char * argv[]) {
     runWithFileName("prerequis2.txt");
     runWithFileName("prerequis3.txt");
