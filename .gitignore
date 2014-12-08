@@ -1,1 +1,5 @@
 *vcxproj*
+/build/
+/dist/
+/nbproject/
+/Labo 3/
