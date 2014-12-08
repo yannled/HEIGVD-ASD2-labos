@@ -14,6 +14,8 @@
 #include "RoadNetwork.h"
 #include "MinimumSpanningTree.h"
 #include "ShortestPath.h"
+#include "RoadGraphWrapper.h"
+#include "RoadDiGraphWrapper.h"
 
 using namespace std;
 
@@ -38,6 +40,8 @@ void PlusRapideChemin(const string& depart, const string& arrivee, const string&
 
 void ReseauLeMoinsCher(RoadNetwork &rn) {
     /* A IMPLEMENTER */
+    RoadGraphWrapper rgw(rn);
+    //auto mst = ASD2::MinimumSpanningTree<RoadGraphWrapper>::Kruskal(rgw);
 }
 
 // compare les algorithmes Dijkstra et BellmanFord pour calculer les plus courts chemins au
@@ -75,7 +79,7 @@ void testShortestPath(string filename)
 }
 
 int main(int argc, const char * argv[]) {
-    
+    // /*
     testShortestPath("tinyEWD.txt");
     testShortestPath("mediumEWD.txt");
     testShortestPath("1000EWD.txt");
@@ -101,7 +105,7 @@ int main(int argc, const char * argv[]) {
     PlusRapideChemin("Geneve", "Emmen", "Vevey", rn);
 
     cout << "5. Quelles routes doivent etre renovees ? Quel sera le cout de la renovation de ces routes ?" << endl;
-    
+    // */ RoadNetwork rn("reseau.txt");
     ReseauLeMoinsCher(rn);
     
     return 0;

@@ -31,7 +31,7 @@ private:
 
 public:
 
-    RoadGraphWrapper(const RoadNetwork rne) : rn(rne) {
+    RoadDiGraphWrapper(const RoadNetwork rne) : rn(rne) {
 
     }
 
@@ -39,34 +39,22 @@ public:
         return rn.cities.size();
     }
 
-    // does nothing, probably useless
-
-    void forEachAdjacentEdge() const {
+    template<typename Func>
+    void forEachAdjacentEdge(int v, Func f) const {
+        std::vector<int> e = rn.cities.at(v).roads;
+        for (int i = 0; i < e.size(); i++) {
+            std::pair<int, int> p = rn.roads.at(e.at(i)).cities;
+            f(ASD2::EdgeCommon<int>(p.first,
+                    p.second, rn.roads.at(e.at(i)).lenght));
+        }
     }
     
     template<typename Func>
     void forEachEdge(Func f) const {
         for (int i = 0; i < rn.roads.size(); i++) {
-            f(ASD2::EdgeCommon(rn.roads.at(i).cities.first,
+            f(ASD2::EdgeCommon<int>(rn.roads.at(i).cities.first,
                     rn.roads.at(i).cities.second, rn.roads.at(i).lenght));
         }
-    }
-
-    std::vector<int> adjacentEdges(int v) {
-        std::vector<int> ret;
-        std::vector<int> e = rn.cities.at(v).roads;
-
-        // this is useless ?
-        for (int i = 0; i < e.size(); i++) {
-            std::pair<int, int> p = rn.roads.at(e.at(i)).cities;
-            if (p.first == v) {
-                ret.push_back(p.second);
-            } else if (p.second == v) {
-                ret.push_back(p.first);
-            }
-        }
-        //return ret;
-        return e;
     }
 
 };

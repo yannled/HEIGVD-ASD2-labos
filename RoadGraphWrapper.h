@@ -13,8 +13,6 @@
 #include "EdgeWeightedGraphCommon.h"
 
 // Classe lisant et donnant accès au reseau routier
-namespace ASD2 {
-
 class RoadGraphWrapper {
 private:
     RoadNetwork rn;
@@ -27,6 +25,7 @@ private:
 
 public:
 
+    
     RoadGraphWrapper(const RoadNetwork rne) : rn(rne) {
 
     }
@@ -40,15 +39,14 @@ public:
     }
 
     template<typename Func>
-    void forEachEdge(Func f) const {
+    void forEachEdge(Func f) {
         for (int i = 0; i < rn.roads.size(); i++) {
-            f(ASD2::EdgeCommon(rn.roads.at(i).cities.first,
+            f(ASD2::EdgeCommon<int>(rn.roads.at(i).cities.first,
                     rn.roads.at(i).cities.second,
-                    costFunction(rn.roads.at(i))));
+                    costFunction(i)));
         }
     }
 
 };
-}
 
 #endif /* defined(__ASD2__RoadNetwork__) */
