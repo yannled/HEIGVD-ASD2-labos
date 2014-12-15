@@ -22,7 +22,7 @@ using namespace std;
 // Calcule et affiche le plus court chemin de la ville depart a la ville arrivee
 // en passant par le reseau routier rn. Le critere a optimiser est la distance.
 
-void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& rn) {   
+void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& rn) {
     /* A IMPLEMENTER */
 }
 
@@ -39,9 +39,24 @@ void PlusRapideChemin(const string& depart, const string& arrivee, const string&
 // coute 7 MF.
 
 void ReseauLeMoinsCher(RoadNetwork &rn) {
-    /* A IMPLEMENTER */
+    /* A IMPLEMENTER: done */
     RoadGraphWrapper rgw(rn);
-    //auto mst = ASD2::MinimumSpanningTree<RoadGraphWrapper>::Kruskal(rgw);
+    auto mst = ASD2::MinimumSpanningTree<RoadGraphWrapper>::Kruskal(rgw);
+    int total = 0;
+    // le plus long: "La Chaux-de-Fonds" en 17 char
+    std::string spaces = "                    "; // 20 char
+    for (ASD2::WeightedEdge<int> e : mst) {
+        total += e.Weight();
+        std::string from = rn.cities.at(e.Either()).name + spaces;
+        std::string to = rn.cities.at(e.Other(e.Either())).name + spaces;
+        from.resize(20); // max: 17 char utiles, min: 20 char spaces
+        to.resize(20); // pour affichage joli en colonnes.
+        cout << "From:   " << from
+                << "  to  " << to 
+                << "  for a cost of   " << e.Weight() << " MCHF" << endl;
+    }
+    cout << endl;
+    cout << "Renovation total cost: " << total << " MCHF" << endl;
 }
 
 // compare les algorithmes Dijkstra et BellmanFord pour calculer les plus courts chemins au
@@ -79,34 +94,34 @@ void testShortestPath(string filename)
 }
 
 int main(int argc, const char * argv[]) {
-    // /*
-    testShortestPath("tinyEWD.txt");
-    testShortestPath("mediumEWD.txt");
-    testShortestPath("1000EWD.txt");
-    testShortestPath("10000EWD.txt");
-    //testShortestPath("largeEWD.txt"); // disponible sur dossier du cours
+   // /*
+   testShortestPath("tinyEWD.txt");
+   testShortestPath("mediumEWD.txt");
+   testShortestPath("1000EWD.txt");
+   testShortestPath("10000EWD.txt");
+   //testShortestPath("largeEWD.txt"); // disponible sur dossier du cours
     
-    RoadNetwork rn("reseau.txt");
+   RoadNetwork rn("reseau.txt");
     
-    cout << "1. Chemin le plus court entre Geneve et Emmen" << endl;
+   cout << "1. Chemin le plus court entre Geneve et Emmen" << endl;
     
-    PlusCourtChemin("Geneve", "Emmen", rn);
+   PlusCourtChemin("Geneve", "Emmen", rn);
     
-    cout << "2. Chemin le plus court entre Lausanne et Bale" << endl;
+   cout << "2. Chemin le plus court entre Lausanne et Bale" << endl;
     
-    PlusCourtChemin("Lausanne", "Basel", rn);
+   PlusCourtChemin("Lausanne", "Basel", rn);
   
-    cout << "3. chemin le plus rapide entre Geneve et Emmen en passant par Yverdon" << endl;
+   cout << "3. chemin le plus rapide entre Geneve et Emmen en passant par Yverdon" << endl;
     
-    PlusRapideChemin("Geneve", "Emmen", "Yverdon-Les-Bains", rn);
+   PlusRapideChemin("Geneve", "Emmen", "Yverdon-Les-Bains", rn);
     
-    cout << "4. chemin le plus rapide entre Geneve et Emmen en passant par Vevey" << endl;
+   cout << "4. chemin le plus rapide entre Geneve et Emmen en passant par Vevey" << endl;
     
-    PlusRapideChemin("Geneve", "Emmen", "Vevey", rn);
+   PlusRapideChemin("Geneve", "Emmen", "Vevey", rn);
 
-    cout << "5. Quelles routes doivent etre renovees ? Quel sera le cout de la renovation de ces routes ?" << endl;
+   cout << "5. Quelles routes doivent etre renovees ? Quel sera le cout de la renovation de ces routes ?" << endl;
     // */ RoadNetwork rn("reseau.txt");
     ReseauLeMoinsCher(rn);
-    
+
     return 0;
 }

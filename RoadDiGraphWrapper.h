@@ -21,10 +21,9 @@
 #include "Util.h"
 
 #include "RoadNetwork.h"
-#include "EdgeWeightedGraphCommon.h"
+#include "EdgeWeightedGraph.h"
 
 // Classe lisant et donnant accès au reseau routier
-
 class RoadDiGraphWrapper {
 private:
     RoadNetwork rn;
@@ -44,7 +43,7 @@ public:
         std::vector<int> e = rn.cities.at(v).roads;
         for (int i = 0; i < e.size(); i++) {
             std::pair<int, int> p = rn.roads.at(e.at(i)).cities;
-            f(ASD2::EdgeCommon<int>(p.first,
+            f(ASD2::WeightedEdge<int>(p.first,
                     p.second, rn.roads.at(e.at(i)).lenght));
         }
     }
@@ -52,7 +51,7 @@ public:
     template<typename Func>
     void forEachEdge(Func f) const {
         for (int i = 0; i < rn.roads.size(); i++) {
-            f(ASD2::EdgeCommon<int>(rn.roads.at(i).cities.first,
+            f(ASD2::WeightedEdge<int>(rn.roads.at(i).cities.first,
                     rn.roads.at(i).cities.second, rn.roads.at(i).lenght));
         }
     }
