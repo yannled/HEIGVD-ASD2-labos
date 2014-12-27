@@ -56,6 +56,14 @@ namespace ASD2 {
 		// sommet source à v.
 		Edges PathTo(int v) {
 			/* A IMPLEMENTER */
+			Edges edges;
+			while (previous[v] != -1)
+			{
+				edges.insert(edges.begin(), v);
+				v = previous[v];
+			}
+
+			return edges;
 		}
 
 	protected:
@@ -68,8 +76,8 @@ namespace ASD2 {
 	template<typename GraphType>
 	class DijkstraSP : public ShortestPath < GraphType > {
 	private:
-		set<int> queue;
-		std::vector<bool> scanned;
+		std::set<int> queue;
+		std::vector<int> previous;
 
 	public:
 		typedef ShortestPath<GraphType> BASE;
@@ -78,22 +86,116 @@ namespace ASD2 {
 
 		DijkstraSP(const GraphType& g, int v)  {
 			/* A IMPLEMENTER */
+			//on suppose que le graphe ne contient que des poids positifs
 			this->edgeTo.reserve(g.V());
 			this->distanceTo.assign(g.V(), std::numeric_limits<Weight>::max());
+			previous.assign(g.V(), -1);
+
+			distanceTo[v] = 0;
 
 			while (!queue.empty())
 			{
-				int v = *queue.begin();
+				int u = *queue.begin();
 				queue.erase(queue.begin());
 
-				scanned[v] = true;
-
-				g.forEachAdjacentEdge(v, [&](const Edge& e){
+				g.forEachAdjacentEdge(u, [&](const Edge& e){
+					double alt = this->distanceTo[u] + e.Weight();
+					if (alt < this->distanceTo[e.To()])
+					{
+						this->distanceTo[e.To()] = alt;
+						previous[e.To()] = u;
+					}
 				});
 
 			}
+		}
+	};
 
-			/*
+	// Algorithme de BellmanFord.
+
+	template<typename GraphType> // Type du graphe pondere oriente a traiter
+	// GraphType doit se comporter comme un
+	// EdgeWeightedDiGraph et definir forEachEdge(Func),
+	// ainsi que le type GraphType::Edge. Ce dernier doit
+	// se comporter comme ASD2::DirectedEdge, c-a-dire definir From(),
+	// To() et Weight()
+
+	class BellmanFordSP : public ShortestPath < GraphType > {
+
+	private:
+		typedef ShortestPath<GraphType> BASE;
+		typedef typename BASE::Edge Edge;
+		typedef typename BASE::Weight Weight;
+
+		// Relachement de l'arc e
+		void relax(const Edge& e) {
+			int v = e.From(), w = e.To();
+			Weight distThruE = this->distanceTo[v] + e.Weight();
+
+			if (this->distanceTo[w] > distThruE) {
+				this->distanceTo[w] = distThruE;
+				this->edgeTo[w] = e;
+			}
+		}
+
+	public:
+
+		// Constructeur a partir du graphe g et du sommet v a la source
+		// des plus courts chemins
+		BellmanFordSP(const GraphType& g, int v) {
+
+			this->edgeTo.reserve(g.V());
+			this->distanceTo.assign(g.V(), std::numeric_limits<Weight>::max());
+
+			this->edgeTo[v] = Edge(v, v, 0);
+			this->distanceTo[v] = 0;
+
+			for (int i = 0; i < g.V(); ++i)
+				g.forEachEdge([this](const Edge& e){
+				this->relax(e);
+			});
+		}
+	};
+
+
+
+	// Algorithme de BellmanFord avec queue simple reprenant les sommets ayant
+	// ete modifies par la derniere iteration.
+
+	template<typename GraphType> // Type du graphe pondere oriente a traiter
+	// GraphType doit se comporter comme un
+	// EdgeWeightedDiGraph et definir forEachAdjacentEdge(int,Func),
+	// ainsi que le type GraphType::Edge. Ce dernier doit
+	// se comporter comme ASD2::DirectedEdge, c-a-dire definir From(),
+	// To() et Weight()
+
+	class BellmanFordQueueSP : public ShortestPath < GraphType > {
+
+	private:
+		typedef ShortestPath<GraphType> BASE;
+		typedef typename BASE::Edge Edge;
+		typedef typename BASE::Weight Weight;
+
+		std::queue<int> queue;
+		std::vector<int> inQueue;
+
+		void relax(const Edge& e) {
+			int v = e.From(), w = e.To();
+			Weight distThruE = this->distanceTo[v] + e.Weight();
+			if (this->distanceTo[w] > distThruE) {
+				this->distanceTo[w] = distThruE;
+				this->edgeTo[w] = e;
+
+				if (!inQueue[w]) {
+					inQueue[w] = true;
+					queue.push(w);
+				}
+			}
+		}
+
+	public:
+		BellmanFordQueueSP(const GraphType& g, int v) {
+
 			inQueue.assign(g.V(), false);
 
 			this->edgeTo.reserve(g.V());
@@ -112,120 +214,9 @@ namespace ASD2 {
 				g.forEachAdjacentEdge(v, [&](const Edge& e) {
 					this->relax(e);
 				});
-			}*/
-		}
-	}
-};
-
-// Algorithme de BellmanFord.
-
-template<typename GraphType> // Type du graphe pondere oriente a traiter
-// GraphType doit se comporter comme un
-// EdgeWeightedDiGraph et definir forEachEdge(Func),
-// ainsi que le type GraphType::Edge. Ce dernier doit
-// se comporter comme ASD2::DirectedEdge, c-a-dire definir From(),
-// To() et Weight()
-
-class BellmanFordSP : public ShortestPath < GraphType > {
-
-private:
-	typedef ShortestPath<GraphType> BASE;
-	typedef typename BASE::Edge Edge;
-	typedef typename BASE::Weight Weight;
-
-	// Relachement de l'arc e
-	void relax(const Edge& e) {
-		int v = e.From(), w = e.To();
-		Weight distThruE = this->distanceTo[v] + e.Weight();
-
-		if (this->distanceTo[w] > distThruE) {
-			this->distanceTo[w] = distThruE;
-			this->edgeTo[w] = e;
-		}
-	}
-
-public:
-
-	// Constructeur a partir du graphe g et du sommet v a la source
-	// des plus courts chemins
-	BellmanFordSP(const GraphType& g, int v) {
-
-		this->edgeTo.reserve(g.V());
-		this->distanceTo.assign(g.V(), std::numeric_limits<Weight>::max());
-
-		this->edgeTo[v] = Edge(v, v, 0);
-		this->distanceTo[v] = 0;
-
-		for (int i = 0; i < g.V(); ++i)
-			g.forEachEdge([this](const Edge& e){
-			this->relax(e);
-		});
-	}
-};
-
-
-
-// Algorithme de BellmanFord avec queue simple reprenant les sommets ayant
-// ete modifies par la derniere iteration.
-
-template<typename GraphType> // Type du graphe pondere oriente a traiter
-// GraphType doit se comporter comme un
-// EdgeWeightedDiGraph et definir forEachAdjacentEdge(int,Func),
-// ainsi que le type GraphType::Edge. Ce dernier doit
-// se comporter comme ASD2::DirectedEdge, c-a-dire definir From(),
-// To() et Weight()
-
-class BellmanFordQueueSP : public ShortestPath < GraphType > {
-
-private:
-	typedef ShortestPath<GraphType> BASE;
-	typedef typename BASE::Edge Edge;
-	typedef typename BASE::Weight Weight;
-
-	std::queue<int> queue;
-	std::vector<int> inQueue;
-
-	void relax(const Edge& e) {
-		int v = e.From(), w = e.To();
-		Weight distThruE = this->distanceTo[v] + e.Weight();
-		if (this->distanceTo[w] > distThruE) {
-			this->distanceTo[w] = distThruE;
-			this->edgeTo[w] = e;
-
-			if (!inQueue[w]) {
-				inQueue[w] = true;
-				queue.push(w);
 			}
 		}
-	}
-
-public:
-	BellmanFordQueueSP(const GraphType& g, int v) {
-
-		inQueue.assign(g.V(), false);
-
-		this->edgeTo.reserve(g.V());
-		this->distanceTo.assign(g.V(), std::numeric_limits<Weight>::max());
-
-		this->edgeTo[v] = Edge(v, v, 0);
-		this->distanceTo[v] = 0;
-		queue.push(v);
-		inQueue[v] = true;
-
-		while (!queue.empty()) {
-			int v = queue.front();
-			inQueue[v] = false;
-			queue.pop();
-
-			g.forEachAdjacentEdge(v, [&](const Edge& e) {
-				this->relax(e);
-			});
-		}
-	}
-};
-
-
+	};
 }
-
 
 #endif
