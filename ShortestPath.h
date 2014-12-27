@@ -90,8 +90,8 @@ namespace ASD2 {
 			this->edgeTo.reserve(g.V());
 			this->distanceTo.assign(g.V(), std::numeric_limits<Weight>::max());
 			previous.assign(g.V(), -1);
-
 			distanceTo[v] = 0;
+			queue.insert(v);
 
 			while (!queue.empty())
 			{
@@ -104,6 +104,7 @@ namespace ASD2 {
 					{
 						this->distanceTo[e.To()] = alt;
 						previous[e.To()] = u;
+						this->queue.insert(e.To());
 					}
 				});
 
