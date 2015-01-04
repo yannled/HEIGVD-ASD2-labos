@@ -33,7 +33,7 @@ private:
     double costFunction (int edge, int costMotorway = 120, int costRoad = 70) const {
         double length = rn.roads.at(edge).lenght;
         double value = rn.roads.at(edge).motorway.Value();
-        return length * value / costMotorway + length * (1-value) / costRoad;
+        return 60 * (length * value / costMotorway + length * (1-value) / costRoad);
     }
 
 public:

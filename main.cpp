@@ -18,6 +18,8 @@
 #include "RoadDiGraphWrapper.h"
 #include "RoadDiGraphWrapperTime.h"
 
+int maxchar = 17;
+
 using namespace std;
 
 // Calcule et affiche le plus court chemin de la ville depart a la ville arrivee
@@ -33,11 +35,11 @@ void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& r
     for (ASD2::WeightedDirectedEdge<double> e : sp.PathTo(rn.cityIdx.at(arrivee))) {
         std::string from = rn.cities.at(e.From()).name + spaces;
         std::string to = rn.cities.at(e.To()).name + spaces;
-        from.resize(20); // max: 17 char utiles, min: 20 char spaces
-        to.resize(20); // pour affichage joli en colonnes.
-        cout << "From:   " << from
-                << "  to  " << to 
-                << "  with distance of   " << e.Weight() << " km" << endl;
+        from.resize(maxchar); // max: 17 char utiles, min: 20 char spaces
+        to.resize(maxchar); // pour affichage joli en colonnes.
+        cout << "From: " << from
+                << " to " << to 
+                << " with distance of  " << e.Weight() << " km" << endl;
         total += e.Weight();
     }
     cout << "Total km: " << total << endl;
@@ -55,11 +57,11 @@ double PlusRapideChemin(const string& depart, const string& arrivee, RoadNetwork
     for (ASD2::WeightedDirectedEdge<double> e : sp.PathTo(rn.cityIdx.at(arrivee))) {
         std::string from = rn.cities.at(e.From()).name + spaces;
         std::string to = rn.cities.at(e.To()).name + spaces;
-        from.resize(20); // max: 17 char utiles, min: 20 char spaces
-        to.resize(20); // pour affichage joli en colonnes.
-        cout << "From:   " << from
-                << "  to  " << to 
-                << "  with time of   " << e.Weight() << " km" << endl;
+        from.resize(maxchar); // max: 17 char utiles, min: 20 char spaces
+        to.resize(maxchar); // pour affichage joli en colonnes.
+        cout << "From: " << from
+                << " to " << to 
+                << " with time of " << e.Weight() << " minutes" << endl;
         total += e.Weight();
     }
     return total;
@@ -68,7 +70,7 @@ double PlusRapideChemin(const string& depart, const string& arrivee, RoadNetwork
 void PlusRapideChemin(const string& depart, const string& arrivee, const string& via, RoadNetwork& rn) {
     /* A IMPLEMENTER */
     double total = PlusRapideChemin(depart, via, rn) + PlusRapideChemin(via, arrivee, rn);
-    cout << "Total time: " << total << endl;
+    cout << "Total time: " << total << "  minutes" << endl;
 }
 
 // Calcule et affiche le plus reseau a renover couvrant toutes les villes le moins
@@ -86,11 +88,11 @@ void ReseauLeMoinsCher(RoadNetwork &rn) {
         total += e.Weight();
         std::string from = rn.cities.at(e.Either()).name + spaces;
         std::string to = rn.cities.at(e.Other(e.Either())).name + spaces;
-        from.resize(20); // max: 17 char utiles, min: 20 char spaces
-        to.resize(20); // pour affichage joli en colonnes.
-        cout << "From:   " << from
-                << "  to  " << to 
-                << "  for a cost of   " << e.Weight() << " MCHF" << endl;
+        from.resize(maxchar); // max: 17 char utiles, min: 20 char spaces
+        to.resize(maxchar); // pour affichage joli en colonnes.
+        cout << "From: " << from
+                << " to " << to 
+                << " for a cost of " << e.Weight() << " MCHF" << endl;
     }
     cout << endl;
     cout << "Renovation total cost: " << total << " MCHF" << endl;
