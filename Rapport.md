@@ -2,21 +2,25 @@ ASD2 - labo 4 - Rapport
 =====================
 
 - HES-SO // HEIG-VD // ASD2 - Algorithmes et structures de données // **Prof. Olivier CUISENAIRE**
-- MM. **Léonard BERNEY et Valentin MINDER**
+- MM. **Léonard BERNEY et Valentin MINDER** // 04.01.2015
 
 Introduction
 ----------------------
-Le but de ce laboratoire est dans un premier temps, de produire une implémentation efficace de l'algorithme de Dijkstra en c++.
-Dans un deuxième temps cet algorithme sera utilisé pour résoudre des problèmes concrets, comme le calcul d'un plus court trajet 
-entre deux villes, étant donnée une carte. TODO: quid de la partie sur les coûts de rénovation?
+La première partie de ce laboratoire consiste à produire une implémentation efficace de l'algorithme de Dijkstra en C++, afin de trouver les plus courts chemins d'une sommet d'un graphe à tous les autres. Cet algorithme sera utilisé pour résoudre des problèmes concrets de navigation guidée, comme le calcul d'un plus court ou d'un plus rapide trajet entre deux villes, étant donnée un réseau routier réel. Ces performances sont également comparées à l'algorithme de Bellmann-Ford pour une série de réseaux de test, le plus grand comportant 100'000 sommets.
+
+Une deuxième partie consiste à déterminer un réseau couvrant minimal afin de planifier des rénovations du réseau au moindre coût tout en connectant tout le réseau. L'algorithme de Kruskal calculant le _Minimum Spanning Tree_ est fourni, il n'y a qu'a faire la connexion entre le réseau routier et un graphe à symbole via un _Wrapper_ qui encapsulera le réseau afin de l'utiliser.
 
 Problématiques
 ------------------
-Ayant décidé de ne pas implémenter l'agorithme de Dijkstra en utlisant une structure _IndexMinPQ_ nous avons été confronté à un 
+Le réseau routier fourni est défini dans sa propre structure. Un des défis était de définir plusieurs _Wrapper_ qui encapsuleront le réseau afin de l'utiliser comme un Graphe standard. En particulier, nous avons dû définir 3 wrapper différents en fonction des usages. En effet, les sommets représentent toujours les villes et les arêtes les routes qui les relient. En revanche, les poids sur les arêtes peuvent être de différentes natures: longueur du tronçon, temps nécessaire pour le parcours du tronçon ou le coût de rénovation du tronçon, les deux derniers dépendant de la longueur et de la nature du tronçon (fraction de route et autoroute). Ces trois natures différentes des poids des arêtes permettent de déterminer, respectivement, les plus courts chemins, plus rapides chemins et réseau à rénover minimal.
+
+Concernant l'algorithme de _Dijkstra_, nous avions besoin d'une structure qui permettent de trier les sommets atteignables les plus proches, tels qu'une queue de priorité. Nous avons décidé de ne pas l'implémenter en utlisant une structure _IndexMinPQ_, et nous avons donc été confrontés à un 
 sérieux problème de performances dû à la manière peu efficace dont les sommets étaient traités à chaque itération de 
 l'algorithme. Plutôt que d'essayer d'implémenter tel quel le pseudo code vu en cours, nous avons finalement décidés d'utiliser
 comme base la version eager de l'algorithme de Prim. Cette dernière approche donne des résultats nettement meilleurs, qui sont
-dans la fourchette attendue.
+dans la fourchette attendue (moins de 10 secondes). 
+
+Notre version utilise un set de <dist,v> ou dist est la distance avec laquelle on peut atteindre le sommet v. Ainsi, le premier élément du set contient toujours le sommet le plus proche actuellement atteignable. Lors d'une mise à jour, afin de changer la priorité d'un sommet, il est nécessaire de le supprimer avec l'ancienne valeur puis de le réajouter dans le set avec la nouvelle. De plus, comme les poids sont tous positifs, chaque sommet qui a été retiré de la queue est traité définitivement et ne doit donc plus y être rajouté. Nous utilisons un simple tableau de booléen pour assurer cela.
 
 Réponses aux questions posées.
 ------------------
@@ -62,3 +66,6 @@ Le cout total est de `8585 MCHF`, soit 8.585 milliards de francs suisses. La car
 Conclusion
 ------------------
 
+Lors de tests sur le plus grand réseau, nous avons rapidement remarqué que la complexité d'un algorithme était absolument essentielle. En effet, un simple oubli de test de réajout dans la queue de priorité ou une queue de priorité gérée comme une liste dont il faut à chaque fois rechercher le plus petit élément, étaient des erreurs qui donnaient des résultats similaires sur de petits jeux de données mais catastrophiques sur de plus grands, le temps d'exécution pouvant dépasser les 15 minutes. Après avoir codé une version fonctionnelle, nous avons donc du améliorer la gestion interne des données afin d'optimiser les opérations sensibles et de rester dans des temps acceptables (moins de 15 secondes).
+
+Ce laboratoire nous a permis de relier nos connaissances théoriques sur les algorithmes à des applications très concrètes telles qu'un réseau routier et la recherche de chemin, tantôt plus court ou plus rapide. Nous nous sommes également rendus compte de l'importance capitale de travailler avec les structures de données les plus appropriées au problème qu'on tente de résoudre afin de minimiser la complexité spatiale et temporelle d'un algoritme lorsque celui-ci doit être implémenté.
