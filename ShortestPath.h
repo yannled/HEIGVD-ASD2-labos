@@ -59,7 +59,7 @@ namespace ASD2 {
 			Edges edges;
 			while (previous.at(v) != -1)
 			{
-				edges.insert(edges.begin(), v);
+				edges.insert(edges.begin(), edgeTo[v]);
 				v = previous.at(v);
 			}
 
@@ -79,7 +79,6 @@ namespace ASD2 {
 	class DijkstraSP : public ShortestPath < GraphType > {
 	private:
 		std::set<int> queue;
-		//std::vector<int> previous;
 
 	public:
 		typedef ShortestPath<GraphType> BASE;
@@ -93,6 +92,7 @@ namespace ASD2 {
 			this->distanceTo.assign(g.V(), std::numeric_limits<Weight>::max());
 			this->previous.assign(g.V(), -1);
 			this->distanceTo.at(v) = 0;
+			this->edgeTo[v] = Edge (v,v,0);
 			queue.insert(v);
 
 			while (!queue.empty())
@@ -106,6 +106,7 @@ namespace ASD2 {
 					{
 						this->distanceTo[e.To()] = alt;
 						this->previous[e.To()] = u;
+						this->edgeTo[e.To()] = e;
 						this->queue.insert(e.To());
 					}
 				});

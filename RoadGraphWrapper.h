@@ -12,7 +12,7 @@
 #include "RoadNetwork.h"
 #include "EdgeWeightedGraph.h"
 
-// Classe lisant et donnant accès au reseau routier
+// Classe formant un wrapper autour d'un graphe non oriente
 class RoadGraphWrapper {
 private:
     RoadNetwork rn;
@@ -34,9 +34,7 @@ public:
         return rn.cities.size();
     }
     
-    // does nothing, probably useless
     // useless: removed forEachAdjacentEdge() 
-
     template<typename Func>
     void forEachEdge(Func f) const {
         for (int i = 0; i < rn.roads.size(); i++) {

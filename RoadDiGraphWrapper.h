@@ -23,7 +23,8 @@
 #include "RoadNetwork.h"
 #include "EdgeWeightedGraph.h"
 
-// Classe lisant et donnant accès au reseau routier
+// Classe formant un wrapper autour d'un graphe non oriente
+// le critere est ici la longueur d'une route de A à B.
 class RoadDiGraphWrapper {
 private:
     RoadNetwork rn;
@@ -39,24 +40,22 @@ public:
         return rn.cities.size();
     }
 
+    // useless: removed forEachEdge() 
     template<typename Func>
     void forEachAdjacentEdge(int v, Func f) const {
         std::vector<int> e = rn.cities.at(v).roads;
         for (int i = 0; i < e.size(); i++) {
             std::pair<int, int> p = rn.roads.at(e.at(i)).cities;
-            f(ASD2::WeightedDirectedEdge<double>(p.first,
-                    p.second, rn.roads.at(e.at(i)).lenght));
+            // the first must be v, the second the other one.
+            // in order that to() function works
+            int other = p.first;
+            if (p.first == v) {
+                other = p.second;
+            }
+            f(ASD2::WeightedDirectedEdge<double>(v,
+                    other, rn.roads.at(e.at(i)).lenght));
         }
     }
-    
-    template<typename Func>
-    void forEachEdge(Func f) const {
-        for (int i = 0; i < rn.roads.size(); i++) {
-            f(ASD2::WeightedDirectedEdge<double>(rn.roads.at(i).cities.first,
-                    rn.roads.at(i).cities.second, rn.roads.at(i).lenght));
-        }
-    }
-
 };
 
 

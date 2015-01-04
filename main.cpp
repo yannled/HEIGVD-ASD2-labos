@@ -24,6 +24,22 @@ using namespace std;
 
 void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& rn) {
     /* A IMPLEMENTER */
+    RoadDiGraphWrapper rdgw(rn);
+    ASD2::DijkstraSP<RoadDiGraphWrapper> sp(rdgw, rn.cityIdx.at(depart));
+    
+    double total = 0;
+    std::string spaces = "                    "; // 20 char
+    for (ASD2::WeightedDirectedEdge<double> e : sp.PathTo(rn.cityIdx.at(arrivee))) {
+        std::string from = rn.cities.at(e.From()).name + spaces;
+        std::string to = rn.cities.at(e.To()).name + spaces;
+        from.resize(20); // max: 17 char utiles, min: 20 char spaces
+        to.resize(20); // pour affichage joli en colonnes.
+        cout << "From:   " << from
+                << "  to  " << to 
+                << "  with distance of   " << e.Weight() << " km" << endl;
+        total += e.Weight();
+    }
+    cout << "Total km: " << total << endl;
 }
 
 // Calcule et affiche le plus rapide chemin de la ville depart a la ville arrivee via la ville "via"
