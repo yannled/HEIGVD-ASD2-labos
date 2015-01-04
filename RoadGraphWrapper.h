@@ -1,10 +1,8 @@
 //
-//  RoadNetwork.h
+//  RoadGraphWrapper.h
 //  ASD2
 //
-//  Created by Olivier Cuisenaire on 18.11.14.
-//
-//
+//  Created by MM. Léonard BERNEY et Valentin MINDER // 04.01.2015
 
 #ifndef __ASD2__RoadGraphWrapper__
 #define __ASD2__RoadGraphWrapper__

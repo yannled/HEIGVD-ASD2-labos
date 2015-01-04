@@ -4,7 +4,7 @@
 //
 //  Created by Olivier Cuisenaire on 05.11.14.
 //
-//
+// modified MM. Léonard BERNEY et Valentin MINDER // 04.01.2015
 
 #ifndef ASD2_ShortestPath_h
 #define ASD2_ShortestPath_h
@@ -55,7 +55,14 @@ namespace ASD2 {
 		// Renvoie la liste ordonnee des arcs constituant un chemin le plus court du
 		// sommet source à v.
 		Edges PathTo(int v) {
-			/* A IMPLEMENTER */
+			/* A IMPLEMENTER 
+                         * 
+                         * remonte la liste de edgeTo jusqu'à la source, 
+                         * identifiée par une boucle sur elle-meme,
+                         * en prenant l'arete arrivant au sommet cherché 
+                         * et en deplacement le sommet de recherche sur 
+                         * le sommet partant de cette arrête.
+                         */
 			Edges edges;
 			while (edgeTo[v].From() != edgeTo[v].To())
 			{
@@ -76,8 +83,17 @@ namespace ASD2 {
 	template<typename GraphType>
 	class DijkstraSP : public ShortestPath < GraphType > {
 	private:
+		/**
+                 * Paire de <dist,v> indiquant la distance connue au sommet v.
+                 */
 		typedef std::pair<double,int> DistSom;
+		/**
+                 * Queue de priorité (implémentée par un set de <distances,sommets>
+                 */
 		std::set<DistSom> queue;
+		/**
+                 * Lorsque le sommet a été retiré de la queue et traité définitivement.
+                 */
 		std::vector<bool> marked;
 
 	public:
@@ -88,37 +104,45 @@ namespace ASD2 {
 		DijkstraSP(const GraphType& g, int v)  {
 			/* A IMPLEMENTER */
 			//on suppose que le graphe ne contient que des poids positifs
+                    
+			// initilisation de marked a false, sauf pour le départ
 			marked.assign(g.V(),false);
 			marked[v] = true;
+                        
+			// réservation de edgeTo, initialisation du premier sommet
+			// on a besoin d'une boucle a 0 comme condition d'arret sur v
 			this->edgeTo.reserve(g.V());
+			this->edgeTo[v] = Edge (v,v,0);
+                        
+			// inilialisation de distanceTo, max pour tous sauf départ à 0
 			this->distanceTo.assign(g.V(), std::numeric_limits<Weight>::max());
 			this->distanceTo.at(v) = 0;
-			// on a besoin d'une boucle a 0 comme condition d'arret sur v
-			this->edgeTo[v] = Edge (v,v,0);
+                        
+                        // insertion du sommet de départ dans la queue
 			queue.insert(std::make_pair(0, v));
-			g.forEachAdjacentEdge(v,[&](const Edge& e) {
-				int w = e.To();
-				this->edgeTo[e.To()] = e;
-				this->distanceTo[w] = e.Weight();
-				queue.insert(std::make_pair(e.Weight(),w)); // set::insert() correspond à priority_queue::push().
-			});
 
 			while (!queue.empty())
 			{
+				// les données du sommet le plus proche sont récupérées
 				double dist = queue.begin()->first;
-				int som = queue.begin()->second;
+				int vertexFrom = queue.begin()->second;
+                                // sommet retiré de la queue et marqué définitif.
 				queue.erase(queue.begin());
-                                marked[som] = true;
+                                marked[vertexFrom] = true;
 
-				g.forEachAdjacentEdge(som, [&](const Edge& e){
-					double alt = dist + e.Weight();
-					int w = e.To();
-					if (!marked[w] && alt < this->distanceTo[e.To()])
+                                // parcours de tous les voisins
+				g.forEachAdjacentEdge(vertexFrom, [&](const Edge& e){
+					// distToAlternative est la distance possible pour vertexTo en passant par vertexFrom
+					double distToAlternative = dist + e.Weight();
+					int vertexTo = e.To();
+					if (!marked[vertexTo] && distToAlternative < this->distanceTo[e.To()])
 					{
-						this->queue.erase(std::make_pair(this->distanceTo[w], w));
-						this->distanceTo[e.To()] = alt;
-						this->edgeTo[e.To()] = e;
-						this->queue.insert(std::make_pair(alt, w));
+						// erase puis insert permet le decrease_key !
+						this->queue.erase(std::make_pair(this->distanceTo[vertexTo], vertexTo));
+						this->queue.insert(std::make_pair(distToAlternative, vertexTo));
+						// mise a jour des tableaux distanceTo et edgeTo
+						this->distanceTo[vertexTo] = distToAlternative;
+						this->edgeTo[vertexTo] = e;
 					}
 				});
 

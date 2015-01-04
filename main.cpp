@@ -4,7 +4,7 @@
 //
 //  Created by Olivier Cuisenaire on 18.11.14.
 //
-//
+// modified MM. Léonard BERNEY et Valentin MINDER // 04.01.2015
 
 #include <iostream>
 #include <ctime>
@@ -18,7 +18,12 @@
 #include "RoadDiGraphWrapper.h"
 #include "RoadDiGraphWrapperTime.h"
 
+/* pour affichage jolie en colonnes sur la console
+ * ajout de 17 espaces au nom puis le nom est raccourci à 17 charactères
+ * le plus long nom: "La Chaux-de-Fonds" en 17 char
+ * */
 int maxchar = 17;
+std::string spaces = "                 "; //17x
 
 using namespace std;
 
@@ -31,12 +36,11 @@ void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& r
     ASD2::DijkstraSP<RoadDiGraphWrapper> sp(rdgw, rn.cityIdx.at(depart));
     
     double total = 0;
-    std::string spaces = "                    "; // 20 char
     for (ASD2::WeightedDirectedEdge<double> e : sp.PathTo(rn.cityIdx.at(arrivee))) {
         std::string from = rn.cities.at(e.From()).name + spaces;
         std::string to = rn.cities.at(e.To()).name + spaces;
-        from.resize(maxchar); // max: 17 char utiles, min: 20 char spaces
-        to.resize(maxchar); // pour affichage joli en colonnes.
+        from.resize(maxchar); 
+        to.resize(maxchar);
         cout << "From: " << from
                 << " to " << to 
                 << " with distance of  " << e.Weight() << " km" << endl;
@@ -45,20 +49,18 @@ void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& r
     cout << "Total km: " << total << endl;
 }
 
-// Calcule et affiche le plus rapide chemin de la ville depart a la ville arrivee via la ville "via"
-// en passant par le reseau routier rn. Le critere a optimiser est le temps de parcours
-// sachant que l'on roule a 120km/h sur autoroute et 70km/h sur route normale.
+// Calcule et affiche le plus rapide chemin de la ville depart a la ville arrivee.
+// utilise deux fois pour le reseaz avec la ville "via"
 double PlusRapideChemin(const string& depart, const string& arrivee, RoadNetwork& rn) {
     RoadDiGraphWrapperTime rdgw(rn);
     ASD2::DijkstraSP<RoadDiGraphWrapperTime> sp(rdgw, rn.cityIdx.at(depart));
     
     double total = 0;
-    std::string spaces = "                    "; // 20 char
     for (ASD2::WeightedDirectedEdge<double> e : sp.PathTo(rn.cityIdx.at(arrivee))) {
         std::string from = rn.cities.at(e.From()).name + spaces;
         std::string to = rn.cities.at(e.To()).name + spaces;
-        from.resize(maxchar); // max: 17 char utiles, min: 20 char spaces
-        to.resize(maxchar); // pour affichage joli en colonnes.
+        from.resize(maxchar);
+        to.resize(maxchar);
         cout << "From: " << from
                 << " to " << to 
                 << " with time of " << e.Weight() << " minutes" << endl;
@@ -67,8 +69,12 @@ double PlusRapideChemin(const string& depart, const string& arrivee, RoadNetwork
     return total;
 }
 
+// Calcule et affiche le plus rapide chemin de la ville depart a la ville arrivee via la ville "via"
+// en passant par le reseau routier rn. Le critere a optimiser est le temps de parcours
+// sachant que l'on roule a 120km/h sur autoroute et 70km/h sur route normale.
 void PlusRapideChemin(const string& depart, const string& arrivee, const string& via, RoadNetwork& rn) {
     /* A IMPLEMENTER */
+    // un parcours depart-via-arrivee est égal a deux parcours depart-via et via arrivee
     double total = PlusRapideChemin(depart, via, rn) + PlusRapideChemin(via, arrivee, rn);
     cout << "Total time: " << total << "  minutes" << endl;
 }
@@ -82,14 +88,12 @@ void ReseauLeMoinsCher(RoadNetwork &rn) {
     RoadGraphWrapper rgw(rn);
     auto mst = ASD2::MinimumSpanningTree<RoadGraphWrapper>::Kruskal(rgw);
     int total = 0;
-    // le plus long: "La Chaux-de-Fonds" en 17 char
-    std::string spaces = "                    "; // 20 char
     for (ASD2::WeightedEdge<int> e : mst) {
         total += e.Weight();
         std::string from = rn.cities.at(e.Either()).name + spaces;
         std::string to = rn.cities.at(e.Other(e.Either())).name + spaces;
-        from.resize(maxchar); // max: 17 char utiles, min: 20 char spaces
-        to.resize(maxchar); // pour affichage joli en colonnes.
+        from.resize(maxchar); 
+        to.resize(maxchar); 
         cout << "From: " << from
                 << " to " << to 
                 << " for a cost of " << e.Weight() << " MCHF" << endl;
@@ -133,7 +137,6 @@ void testShortestPath(string filename)
 }
 
 int main(int argc, const char * argv[]) {
-   // /*
    testShortestPath("tinyEWD.txt");
    testShortestPath("mediumEWD.txt");
    testShortestPath("1000EWD.txt");
@@ -159,7 +162,6 @@ int main(int argc, const char * argv[]) {
    PlusRapideChemin("Geneve", "Emmen", "Vevey", rn);
 
    cout << "5. Quelles routes doivent etre renovees ? Quel sera le cout de la renovation de ces routes ?" << endl;
-    // */ RoadNetwork rn("reseau.txt");
     ReseauLeMoinsCher(rn);
 
     return 0;
