@@ -16,6 +16,7 @@
 #include "ShortestPath.h"
 #include "RoadGraphWrapper.h"
 #include "RoadDiGraphWrapper.h"
+#include "RoadDiGraphWrapperTime.h"
 
 using namespace std;
 
@@ -45,9 +46,29 @@ void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& r
 // Calcule et affiche le plus rapide chemin de la ville depart a la ville arrivee via la ville "via"
 // en passant par le reseau routier rn. Le critere a optimiser est le temps de parcours
 // sachant que l'on roule a 120km/h sur autoroute et 70km/h sur route normale.
+double PlusRapideChemin(const string& depart, const string& arrivee, RoadNetwork& rn) {
+    RoadDiGraphWrapperTime rdgw(rn);
+    ASD2::DijkstraSP<RoadDiGraphWrapperTime> sp(rdgw, rn.cityIdx.at(depart));
+    
+    double total = 0;
+    std::string spaces = "                    "; // 20 char
+    for (ASD2::WeightedDirectedEdge<double> e : sp.PathTo(rn.cityIdx.at(arrivee))) {
+        std::string from = rn.cities.at(e.From()).name + spaces;
+        std::string to = rn.cities.at(e.To()).name + spaces;
+        from.resize(20); // max: 17 char utiles, min: 20 char spaces
+        to.resize(20); // pour affichage joli en colonnes.
+        cout << "From:   " << from
+                << "  to  " << to 
+                << "  with time of   " << e.Weight() << " km" << endl;
+        total += e.Weight();
+    }
+    return total;
+}
 
 void PlusRapideChemin(const string& depart, const string& arrivee, const string& via, RoadNetwork& rn) {
     /* A IMPLEMENTER */
+    double total = PlusRapideChemin(depart, via, rn) + PlusRapideChemin(via, arrivee, rn);
+    cout << "Total time: " << total << endl;
 }
 
 // Calcule et affiche le plus reseau a renover couvrant toutes les villes le moins
