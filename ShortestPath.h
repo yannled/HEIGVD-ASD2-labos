@@ -76,7 +76,9 @@ namespace ASD2 {
 	template<typename GraphType>
 	class DijkstraSP : public ShortestPath < GraphType > {
 	private:
-		std::set<int> queue;
+		typedef std::pair<double,int> DistSom;
+		std::set<DistSom> queue;
+		std::vector<bool> marked;
 
 	public:
 		typedef ShortestPath<GraphType> BASE;
@@ -86,25 +88,37 @@ namespace ASD2 {
 		DijkstraSP(const GraphType& g, int v)  {
 			/* A IMPLEMENTER */
 			//on suppose que le graphe ne contient que des poids positifs
+			marked.assign(g.V(),false);
+			marked[v] = true;
 			this->edgeTo.reserve(g.V());
 			this->distanceTo.assign(g.V(), std::numeric_limits<Weight>::max());
 			this->distanceTo.at(v) = 0;
 			// on a besoin d'une boucle a 0 comme condition d'arret sur v
 			this->edgeTo[v] = Edge (v,v,0);
-			queue.insert(v);
+			queue.insert(std::make_pair(0, v));
+			g.forEachAdjacentEdge(v,[&](const Edge& e) {
+				int w = e.To();
+				this->edgeTo[e.To()] = e;
+				this->distanceTo[w] = e.Weight();
+				queue.insert(std::make_pair(e.Weight(),w)); // set::insert() correspond à priority_queue::push().
+			});
 
 			while (!queue.empty())
 			{
-				int u = *queue.begin();
+				double dist = queue.begin()->first;
+				int som = queue.begin()->second;
 				queue.erase(queue.begin());
+                                marked[som] = true;
 
-				g.forEachAdjacentEdge(u, [&](const Edge& e){
-					double alt = this->distanceTo[u] + e.Weight();
-					if (alt < this->distanceTo[e.To()])
+				g.forEachAdjacentEdge(som, [&](const Edge& e){
+					double alt = dist + e.Weight();
+					int w = e.To();
+					if (!marked[w] && alt < this->distanceTo[e.To()])
 					{
+						this->queue.erase(std::make_pair(this->distanceTo[w], w));
 						this->distanceTo[e.To()] = alt;
 						this->edgeTo[e.To()] = e;
-						this->queue.insert(e.To());
+						this->queue.insert(std::make_pair(alt, w));
 					}
 				});
 
