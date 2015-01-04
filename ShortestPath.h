@@ -57,10 +57,10 @@ namespace ASD2 {
 		Edges PathTo(int v) {
 			/* A IMPLEMENTER */
 			Edges edges;
-			while (previous.at(v) != -1)
+			while (edgeTo[v].From() != edgeTo[v].To())
 			{
 				edges.insert(edges.begin(), edgeTo[v]);
-				v = previous.at(v);
+				v = edgeTo[v].From();
 			}
 
 			return edges;
@@ -68,9 +68,7 @@ namespace ASD2 {
 
 	protected:
 		Edges edgeTo;
-		Weights distanceTo;
-                std::vector<int> previous;
-                
+		Weights distanceTo;                
 	};
 
 	// Classe a mettre en oeuvre au labo 4. S'inspirer de BellmaFordSP pour l'API
@@ -90,8 +88,8 @@ namespace ASD2 {
 			//on suppose que le graphe ne contient que des poids positifs
 			this->edgeTo.reserve(g.V());
 			this->distanceTo.assign(g.V(), std::numeric_limits<Weight>::max());
-			this->previous.assign(g.V(), -1);
 			this->distanceTo.at(v) = 0;
+			// on a besoin d'une boucle a 0 comme condition d'arret sur v
 			this->edgeTo[v] = Edge (v,v,0);
 			queue.insert(v);
 
@@ -105,7 +103,6 @@ namespace ASD2 {
 					if (alt < this->distanceTo[e.To()])
 					{
 						this->distanceTo[e.To()] = alt;
-						this->previous[e.To()] = u;
 						this->edgeTo[e.To()] = e;
 						this->queue.insert(e.To());
 					}
