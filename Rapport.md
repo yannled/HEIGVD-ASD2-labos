@@ -6,7 +6,7 @@ ASD2 - labo 4 - Rapport
 
 Introduction
 ----------------------
-La première partie de ce laboratoire consiste à produire une implémentation efficace de l'algorithme de Dijkstra en C++, afin de trouver les plus courts chemins d'une sommet d'un graphe à tous les autres. Cet algorithme sera utilisé pour résoudre des problèmes concrets de navigation guidée, comme le calcul d'un plus court ou d'un plus rapide trajet entre deux villes, étant donnée un réseau routier réel. Ces performances sont également comparées à l'algorithme de Bellmann-Ford pour une série de réseaux de test, le plus grand comportant 100'000 sommets.
+La première partie de ce laboratoire consiste à produire une implémentation efficace de l'algorithme de Dijkstra en C++, afin de trouver les plus courts chemins d'une sommet d'un graphe à tous les autres. Cet algorithme sera utilisé pour résoudre des problèmes concrets de navigation guidée, comme le calcul d'un plus court ou d'un plus rapide trajet entre deux villes, étant donnée un réseau routier réel. Ces performances sont également comparées à l'algorithme de Bellmann-Ford pour une série de réseaux de test, le plus grand comportant 1'000'000 sommets et 15'172'126	arêtes.
 
 Une deuxième partie consiste à déterminer un réseau couvrant minimal afin de planifier des rénovations du réseau au moindre coût tout en connectant tout le réseau. L'algorithme de Kruskal calculant le _Minimum Spanning Tree_ est fourni, il n'y a qu'a faire la connexion entre le réseau routier et un graphe à symbole via un _Wrapper_ qui encapsulera le réseau afin de l'utiliser.
 
@@ -62,6 +62,15 @@ Le cout total est de `8585 MCHF`, soit 8.585 milliards de francs suisses. La car
 
 ![réseau a rénover](https://raw.githubusercontent.com/ValentinMinder/ASD/b0cfaa79f0a498ed50b6eddebad2faad55ab950a/Question5-reseau.png?token=AFPQ76MwsZ7eqLSnSLpvfnYyyn7W6Mcrks5UsraDwA%3D%3D)
 
+Temps d'éxecution comparés, en millisecondes. Le nombre de sommets et d'arêtes est indiqué pour une notion d'échelle.
+
+Fichier   | V() | E() |   Bellman-Ford | Dijkstra
+--------|---:|---:|------:| ----:
+tinyEWD.txt  | 8 | 15 |   0.044 | 0.038
+mediumEWD.txt  | 250 | 2546 |  0.265 | 0.636
+1000EWD.txt  | 1000 | 16866 |   1.362 | 3.564
+10000EWD.txt  | 10000 | 123462 |   10.412 | 30.339
+largeEWD.txt  | 1000000 | 15172126 |   5705.53_ | 4377.9__
 
 Conclusion
 ------------------
