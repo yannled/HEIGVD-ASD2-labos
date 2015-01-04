@@ -57,10 +57,10 @@ namespace ASD2 {
 		Edges PathTo(int v) {
 			/* A IMPLEMENTER */
 			Edges edges;
-			while (previous[v] != -1)
+			while (previous.at(v) != -1)
 			{
 				edges.insert(edges.begin(), v);
-				v = previous[v];
+				v = previous.at(v);
 			}
 
 			return edges;
@@ -69,6 +69,8 @@ namespace ASD2 {
 	protected:
 		Edges edgeTo;
 		Weights distanceTo;
+                std::vector<int> previous;
+                
 	};
 
 	// Classe a mettre en oeuvre au labo 4. S'inspirer de BellmaFordSP pour l'API
@@ -77,7 +79,7 @@ namespace ASD2 {
 	class DijkstraSP : public ShortestPath < GraphType > {
 	private:
 		std::set<int> queue;
-		std::vector<int> previous;
+		//std::vector<int> previous;
 
 	public:
 		typedef ShortestPath<GraphType> BASE;
@@ -89,8 +91,8 @@ namespace ASD2 {
 			//on suppose que le graphe ne contient que des poids positifs
 			this->edgeTo.reserve(g.V());
 			this->distanceTo.assign(g.V(), std::numeric_limits<Weight>::max());
-			previous.assign(g.V(), -1);
-			distanceTo[v] = 0;
+			this->previous.assign(g.V(), -1);
+			this->distanceTo.at(v) = 0;
 			queue.insert(v);
 
 			while (!queue.empty())
@@ -103,7 +105,7 @@ namespace ASD2 {
 					if (alt < this->distanceTo[e.To()])
 					{
 						this->distanceTo[e.To()] = alt;
-						previous[e.To()] = u;
+						this->previous[e.To()] = u;
 						this->queue.insert(e.To());
 					}
 				});
