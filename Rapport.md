@@ -6,11 +6,17 @@ ASD2 - labo 4 - Rapport
 
 Introduction
 ----------------------
-
+Le but de ce laboratoire est dans un premier temps, de produire une implémentation efficace de l'algorithme de Dijkstra en c++.
+Dans un deuxième temps cet algorithme sera utilisé pour résoudre des problèmes concrets, comme le calcul d'un plus court trajet 
+entre deux villes, étant donnée une carte. TODO: quid de la partie sur les coûts de rénovation?
 
 Problématiques
 ------------------
-
+Ayant décidé de ne pas implémenter l'agorithme de Dijkstra en utlisant une structure _IndexMinPQ_ nous avons été confronté à un 
+sérieux problème de performances dû à la manière peu efficace dont les sommets étaient traités à chaque itération de 
+l'algorithme. Plutôt que d'essayer d'implémenter tel quel le pseudo code vu en cours, nous avons finalement décidés d'utiliser
+comme base la version eager de l'algorithme de Prim. Cette dernière approche donne des résultats nettement meilleurs, qui sont
+dans la fourchette attendue.
 
 Réponses aux questions posées.
 ------------------
