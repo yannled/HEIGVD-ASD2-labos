@@ -28,10 +28,10 @@ private:
     RoadNetwork rn;
     
     // minutes
-    double costFunction (int edge, int costMotorway = 120, int costRoad = 70) const {
+    double costFunction (int edge, double costMotorway = 120.0, double costRoad = 70.0) const {
         double length = rn.roads.at(edge).lenght;
         double value = rn.roads.at(edge).motorway.Value();
-        return 60 * (length * value / costMotorway + length * (1-value) / costRoad);
+        return 60.0 * ((length * value / costMotorway) + (length * (1-value) / costRoad));
     }
 
 public:
@@ -58,7 +58,7 @@ public:
                 other = p.second;
             }
             f(ASD2::WeightedDirectedEdge<double>(v,
-                    other, costFunction(i)));
+                    other, costFunction(e.at(i))));
         }
     }
 };

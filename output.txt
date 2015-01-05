@@ -16,22 +16,26 @@ Total km: 185
 3. chemin le plus rapide entre Geneve et Emmen en passant par Yverdon
 From: Geneve            to Nyon              with time of 11.5 minutes
 From: Nyon              to Morges            with time of 12.5 minutes
-From: Morges            to Lausanne          with time of 12.5 minutes
-From: Lausanne          to Yverdon-Les-Bains with time of 3.5 minutes
-From: Yverdon-Les-Bains to Neuchatel         with time of 12.5 minutes
-From: Neuchatel         to Bienne            with time of 12.5 minutes
-From: Bienne            to Berne             with time of 3.5 minutes
-From: Berne             to Emmen             with time of 3.5 minutes
-Total time: 72  minutes
+From: Morges            to Lausanne          with time of 3.5 minutes
+From: Lausanne          to Yverdon-Les-Bains with time of 12.5 minutes
+From: Yverdon-Les-Bains to Neuchatel         with time of 24.4286 minutes
+From: Neuchatel         to Bienne            with time of 23.0714 minutes
+From: Bienne            to Soleure           with time of 21.4286 minutes
+From: Soleure           to Olten             with time of 20 minutes
+From: Olten             to Emmen             with time of 27.5 minutes
+Total time: 156.429  minutes
 4. chemin le plus rapide entre Geneve et Emmen en passant par Vevey
 From: Geneve            to Nyon              with time of 11.5 minutes
 From: Nyon              to Morges            with time of 12.5 minutes
-From: Morges            to Lausanne          with time of 12.5 minutes
+From: Morges            to Lausanne          with time of 3.5 minutes
 From: Lausanne          to Vevey             with time of 12.5 minutes
-From: Vevey             to Fribourg          with time of 3.5 minutes
-From: Fribourg          to Berne             with time of 12.5 minutes
-From: Berne             to Emmen             with time of 3.5 minutes
-Total time: 68.5  minutes
+From: Vevey             to Fribourg          with time of 27.5 minutes
+From: Fribourg          to Berne             with time of 16 minutes
+From: Berne             to Burgdorf          with time of 7.5 minutes
+From: Burgdorf          to Soleure           with time of 10 minutes
+From: Soleure           to Olten             with time of 20 minutes
+From: Olten             to Emmen             with time of 27.5 minutes
+Total time: 148.5  minutes
 5. Quelles routes doivent etre renovees ? Quel sera le cout de la renovation de ces routes ?
 From: Morges            to Lausanne          for a cost of 105 MCHF
 From: Vevey             to Montreux          for a cost of 105 MCHF
