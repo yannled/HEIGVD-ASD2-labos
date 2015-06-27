@@ -1,5 +1,14 @@
 *vcxproj*
-/build/
-/dist/
-/nbproject/
-/Labo 3/
+*build*
+*dist*
+*nbproject*
+*Thumbs.db
+*.DS_Store
+*bin*
+*obj*
+*.depend
+*.cbp
+*.mk
+*.dist
+*.bash
+*.xml
