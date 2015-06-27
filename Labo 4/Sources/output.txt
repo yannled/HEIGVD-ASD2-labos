@@ -1,0 +1,67 @@
+1. Chemin le plus court entre Geneve et Emmen
+From: Geneve            to Nyon              with distance of  23 km
+From: Nyon              to Morges            with distance of  25 km
+From: Morges            to Lausanne          with distance of  7 km
+From: Lausanne          to Chietres          with distance of  70 km
+From: Chietres          to Berne             with distance of  23 km
+From: Berne             to Emmen             with distance of  90 km
+Total km: 238
+2. Chemin le plus court entre Lausanne et Bale
+From: Lausanne          to Yverdon-Les-Bains with distance of  25 km
+From: Yverdon-Les-Bains to Neuchatel         with distance of  36 km
+From: Neuchatel         to Bienne            with distance of  34 km
+From: Bienne            to Delemont          with distance of  50 km
+From: Delemont          to Basel             with distance of  40 km
+Total km: 185
+3. chemin le plus rapide entre Geneve et Emmen en passant par Yverdon
+From: Geneve            to Nyon              with time of 11.5 minutes
+From: Nyon              to Morges            with time of 12.5 minutes
+From: Morges            to Lausanne          with time of 3.5 minutes
+From: Lausanne          to Yverdon-Les-Bains with time of 12.5 minutes
+From: Yverdon-Les-Bains to Neuchatel         with time of 24.4286 minutes
+From: Neuchatel         to Bienne            with time of 23.0714 minutes
+From: Bienne            to Soleure           with time of 21.4286 minutes
+From: Soleure           to Olten             with time of 20 minutes
+From: Olten             to Emmen             with time of 27.5 minutes
+Total time: 156.429  minutes
+4. chemin le plus rapide entre Geneve et Emmen en passant par Vevey
+From: Geneve            to Nyon              with time of 11.5 minutes
+From: Nyon              to Morges            with time of 12.5 minutes
+From: Morges            to Lausanne          with time of 3.5 minutes
+From: Lausanne          to Vevey             with time of 12.5 minutes
+From: Vevey             to Fribourg          with time of 27.5 minutes
+From: Fribourg          to Berne             with time of 16 minutes
+From: Berne             to Burgdorf          with time of 7.5 minutes
+From: Burgdorf          to Soleure           with time of 10 minutes
+From: Soleure           to Olten             with time of 20 minutes
+From: Olten             to Emmen             with time of 27.5 minutes
+Total time: 148.5  minutes
+5. Quelles routes doivent etre renovees ? Quel sera le cout de la renovation de ces routes ?
+From: Morges            to Lausanne          for a cost of 105 MCHF
+From: Vevey             to Montreux          for a cost of 105 MCHF
+From: Langenthal        to Olten             for a cost of 119 MCHF
+From: Augst             to Basel             for a cost of 150 MCHF
+From: Burgdorf          to Langenthal        for a cost of 175 MCHF
+From: Bienne            to Soleure           for a cost of 175 MCHF
+From: Berne             to Burgdorf          for a cost of 225 MCHF
+From: Chietres          to Neuchatel         for a cost of 232 MCHF
+From: Montreux          to Monthey           for a cost of 300 MCHF
+From: Monthey           to Martigny          for a cost of 300 MCHF
+From: Soleure           to Burgdorf          for a cost of 300 MCHF
+From: La Chaux-De-Fonds to Bienne            for a cost of 315 MCHF
+From: Neuchatel         to La Chaux-De-Fonds for a cost of 330 MCHF
+From: Basel             to Delemont          for a cost of 344 MCHF
+From: Geneve            to Nyon              for a cost of 345 MCHF
+From: Delemont          to Bienne            for a cost of 350 MCHF
+From: Lausanne          to Vevey             for a cost of 375 MCHF
+From: Nyon              to Morges            for a cost of 375 MCHF
+From: Lausanne          to Yverdon-Les-Bains for a cost of 375 MCHF
+From: Berne             to Thun              for a cost of 390 MCHF
+From: Yverdon-Les-Bains to Neuchatel         for a cost of 396 MCHF
+From: Martigny          to Sion              for a cost of 405 MCHF
+From: Fribourg          to Berne             for a cost of 480 MCHF
+From: Thun              to Brienz            for a cost of 624 MCHF
+From: Emmen             to Berne             for a cost of 630 MCHF
+From: Olten             to Baden             for a cost of 675 MCHF
+
+Renovation total cost: 8595 MCHF
